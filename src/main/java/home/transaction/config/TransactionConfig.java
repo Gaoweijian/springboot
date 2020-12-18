@@ -7,6 +7,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
+/**
+ * @Author: gao侧耳倾听
+ * @License: (C) Copyright 2005-2020/12/18, xxx Corporation Limited.
+ * @Contact: xxx@xxx.com
+ * @Date: 2020/12/18 下午 09:17
+ * @Version: 1.0
+ * @Description:
+ */
 @Configuration
 public class TransactionConfig {
 

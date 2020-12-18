@@ -28,7 +28,7 @@ public class VolatileController {
     //    System.out.println(Thread.currentThread().getName() + "\t " + num);
     //});
 
-    private String VOLATILE_STATUS = "true";
+    private final String VOLATILE_STATUS = "true";
 
     private volatile List<String> list;
 
