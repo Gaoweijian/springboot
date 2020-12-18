@@ -12,10 +12,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author wb-gwj607956
- * @version $Id: VolatileController.java, v 0.1 2020年12月18日 10:01 wb-gwj607956 Exp $
- * <p>
- * 验证volatile 1.可见性 2.不保证原子性 3.禁止指令重排
+ * @Author: gao侧耳倾听
+ * @License: (C) Copyright 2005-2020/12/18, xxx Corporation Limited.
+ * @Contact: xxx@xxx.com
+ * @Date: 2020/12/18 下午 08:52
+ * @Version: 1.0
+ * @Description: 验证volatile 1.可见性 2.不保证原子性 3.禁止指令重排
  */
 @RestController
 @RequestMapping(value = "/volatile")
@@ -30,8 +32,15 @@ public class VolatileController {
 
     private volatile List<String> list;
 
-    //验证可见性
-    @RequestMapping(value = "/visible")
+     /**
+      *@描述 验证可见性
+      *@参数 [status]
+      *@返回值 int
+      *@创建人 gao侧耳倾听
+      *@创建时间 2020/12/18
+      *@修改人和其它信息
+      */
+     @RequestMapping(value = "/visible")
     public int vildateVisible(@RequestParam(value = "status") boolean status) {
         int countNum = 0;
         VolatileResource resource = new VolatileResource();
@@ -50,9 +59,17 @@ public class VolatileController {
         return (status ? resource.numVolatile : resource.numNoVolatile);
     }
 
-    //验证原子性
-    @RequestMapping(value = "/atomic")
+     /**
+      *@描述 验证原子性
+      *@参数 []
+      *@返回值 int
+      *@创建人 gao侧耳倾听
+      *@创建时间 2020/12/18
+      *@修改人和其它信息
+      */
+     @RequestMapping(value = "/atomic")
     public int validateVolatile() {
+
         CountDownLatch downLatch = new CountDownLatch(5);
         AtomicInteger num = new AtomicInteger();
         Thread thread = Thread.currentThread();
@@ -74,10 +91,18 @@ public class VolatileController {
         return num.get();
     }
 
-    //验证原子性
-    @RequestMapping(value = "/atomic/list")
+     /**
+      *@描述 验证原子性
+      *@参数 []
+      *@返回值 java.lang.String
+      *@创建人 gao侧耳倾听
+      *@创建时间 2020/12/18
+      *@修改人和其它信息
+      */
+     @RequestMapping(value = "/atomic/list")
     public String validateVolatileList() {
-        list = new ArrayList<>();
+
+         list = new ArrayList<>();
         Thread thread = Thread.currentThread();
         System.out.println(thread.getName() + "\t 验证原子性");
         for (int i = 0; i < 5; i++) {
@@ -90,6 +115,15 @@ public class VolatileController {
         return JSON.toJSONString(list);
     }
 
+
+    /**
+     * @Author: gao侧耳倾听
+     * @License: (C) Copyright 2005-2020/12/18, xxx Corporation Limited.
+     * @Contact: xxx@xxx.com
+     * @Date: 2020/12/18 下午 08:53
+     * @Version: 1.0
+     * @Description:
+     */
     class VolatileResource {
 
         public volatile int numVolatile = 0;

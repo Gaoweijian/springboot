@@ -7,15 +7,26 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author wb-gwj607956
- * @version $Id: CASController.java, v 0.1 2020年12月18日 16:51 wb-gwj607956 Exp $
- * <p>
- * CAS compare and set 比较并交换
+ * @Author: gao侧耳倾听
+ * @License: (C) Copyright 2005-2020/12/18, xxx Corporation Limited.
+ * @Contact: xxx@xxx.com
+ * @Date: 2020/12/18 下午 08:51
+ * @Version: 1.0
+ * @Description: CAS compare and set 比较并交换
  */
 @RestController
 @RequestMapping(value = "/cas")
 public class CASController {
 
+
+    /**
+     * @描述
+     * @参数 [initNum, updateNum]
+     * @返回值 java.lang.String
+     * @创建人 gao侧耳倾听
+     * @创建时间 2020/12/18
+     * @修改人和其它信息
+     */
     @RequestMapping(value = "/vaildate")
     public String casVaildate(int initNum, int updateNum) {
         Thread thread = Thread.currentThread();
