@@ -33,9 +33,9 @@ public class CASController {
         StringBuilder sb = new StringBuilder();
         AtomicInteger atomic = new AtomicInteger(initNum);
         sb.append("initNum：" + initNum + " updateNum：" + updateNum);
-        sb.append("     ");
+        sb.append("    ");
         sb.append(thread.getName() + "-" + atomic.compareAndSet(initNum, updateNum));
-        sb.append("     ");
+        sb.append("    ");
         sb.append(thread.getName() + "-" + atomic.compareAndSet(initNum, updateNum));
         System.out.println(JSON.toJSONString(sb));
         return JSON.toJSONString(sb);
