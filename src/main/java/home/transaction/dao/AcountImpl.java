@@ -2,13 +2,11 @@ package home.transaction.dao;
 
 import home.transaction.dao.client.IAcountDao;
 import home.transaction.dto.UAccount;
-import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository(value = "acountDao")
@@ -29,11 +27,19 @@ class AcountImpl implements IAcountDao {
         throw new RuntimeException("查询异常");
     }
 
-    public void updateAcount(UAccount account) {
-        jdbcTemplate.update("update u_acount set money=? where id=?", +account.getMoney(), account.getId());
+    public boolean updateAcount(UAccount account) {
+        int row = jdbcTemplate.update("update u_acount set money=?,name=? where id=?", account.getMoney(), account.getName(), account.getId());
+        if (row == 1) {
+            return true;
+        }
+        return false;
     }
 
-    public void delAcount(int id) {
-        jdbcTemplate.update("delete from u_acount where id=?", id);
+    public boolean delAcount(int id) {
+        int row = jdbcTemplate.update("delete from u_acount where id=?", id);
+        if (row == 1) {
+            return true;
+        }
+        return false;
     }
 }

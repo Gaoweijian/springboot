@@ -5,7 +5,7 @@ import home.transaction.dto.UAccount;
 public interface IAcountDao {
     public UAccount getAcount(String name);
 
-    public void updateAcount(UAccount account);
+    public boolean updateAcount(UAccount account);
 
-    public void delAcount(int id);
+    public boolean delAcount(int id);
 }

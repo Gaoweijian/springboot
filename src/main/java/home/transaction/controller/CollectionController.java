@@ -18,6 +18,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @Date: 2020/12/18 下午 08:32
  * @Version: 1.0
  * @Description: 我们知道ArrayList是线程不安全的，请编码写一个不安全的案例并给出解决方案。
+ * volatile ArrayList
+ * new Vector()
+ * new Collections.synchronizedList(new ArrayList<>());
+ * new CopyOnWriteArrayList();
  */
 @ResponseBody
 @Controller
@@ -71,6 +75,7 @@ public class CollectionController {
 //        private volatile List<String> arrayList = new ArrayList<>();
 //        private  List<String> arrayList = Collections.synchronizedList(new ArrayList<>());
         private List<String> arrayList = new CopyOnWriteArrayList();
+
 
         @Override
         public void run() {

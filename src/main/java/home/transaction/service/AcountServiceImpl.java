@@ -34,4 +34,11 @@ public class AcountServiceImpl implements IAcountService {
             return false;
         }
     }
+
+    @Override
+    public boolean updateAccount(UAccount account) {
+        return acountDao.updateAcount(account);
+    }
+
+
 }
