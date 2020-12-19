@@ -1,6 +1,8 @@
 package home.transaction.controller;
 
 import home.transaction.service.client.IAcountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description:
  */
 @RestController
-@RequestMapping(value = "home/transaction/")
+@RequestMapping(value = "home/transaction")
 public class RequestController {
 
+    private final Logger logger = LoggerFactory.getLogger(RequestController.class);
 
     @Autowired
     private IAcountService acountService;
@@ -29,10 +32,10 @@ public class RequestController {
      * @创建时间 2020/12/18
      * @修改人和其它信息
      */
-    @RequestMapping(value = "connection")
+    @RequestMapping(value = "/connection")
     public boolean startConnection() {
         Thread thread = Thread.currentThread();
-        System.out.println("客户端连接成功:\t" + thread.getName());
-        return acountService.transationAcount("张三","李四",1);
+        logger.trace("客户端连接成功");
+        return acountService.transationAcount("张三", "李四", 1);
     }
 }
