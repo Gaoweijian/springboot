@@ -7,18 +7,8 @@
     <groupId>com.gao.www</groupId>
     <artifactId>springboot</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <packaging>jar</packaging>
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -32,7 +22,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>RELEASE</version>
         </dependency>
-        <!--springboot日志依赖-->
+        <!--springboot日志依赖 已经默认自带了-->
         <!--<dependency>-->
         <!--<groupId>org.springframework.boot</groupId>-->
         <!--<artifactId>spring-boot-starter-logging</artifactId>-->
@@ -86,5 +76,23 @@
             <artifactId>lombok</artifactId>
             <version>1.16.20</version>
         </dependency>
+        <!--springboot jquery依赖-->
+        <!--<dependency>-->
+        <!--<groupId>org.webjars</groupId>-->
+        <!--<artifactId>jquery</artifactId>-->
+        <!--<version>3.5.0</version>-->
+        <!--</dependency>-->
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
