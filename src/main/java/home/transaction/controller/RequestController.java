@@ -45,6 +45,14 @@ public class RequestController {
         return acountService.transationAcount("张三", "李四", 1);
     }
 
+    /**
+     * @描述
+     * @参数 [name]
+     * @返回值 home.transaction.dto.UAccount
+     * @创建人 gao侧耳倾听
+     * @创建时间 2020/12/20
+     * @修改人和其它信息
+     */
     @RequestMapping(value = "/ccount")
     public UAccount getUAccountByName(String name) {
         return iAcountDaoManager.getAcount(name);
