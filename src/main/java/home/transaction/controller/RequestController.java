@@ -1,5 +1,7 @@
 package home.transaction.controller;
 
+import home.transaction.dao.client.IAcountDaoManager;
+import home.transaction.dto.UAccount;
 import home.transaction.service.client.IAcountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,10 @@ public class RequestController {
     @Autowired
     private IAcountService acountService;
 
+
+    @Autowired
+    IAcountDaoManager iAcountDaoManager;
+
     /**
      * @描述
      * @参数 []
@@ -37,5 +43,10 @@ public class RequestController {
         Thread thread = Thread.currentThread();
         logger.trace("客户端连接成功");
         return acountService.transationAcount("张三", "李四", 1);
+    }
+
+    @RequestMapping(value = "/ccount")
+    public UAccount getUAccountByName(String name) {
+        return iAcountDaoManager.getAcount(name);
     }
 }
