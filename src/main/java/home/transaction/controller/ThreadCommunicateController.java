@@ -1,15 +1,19 @@
 package home.transaction.controller;
 
 import com.alibaba.fastjson.JSON;
+import home.transaction.dao.client.IAcountDaoManager;
+import home.transaction.dto.UAccount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
+import java.util.UUID;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -26,6 +30,10 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ThreadCommunicateController {
 
     private final Logger logger = LoggerFactory.getLogger(ThreadCommunicateController.class);
+
+
+    @Autowired
+    IAcountDaoManager iAcountDaoManager;
 
     @RequestMapping(value = "/concurrency")
     public String concurrencyThread() {
@@ -55,7 +63,46 @@ public class ThreadCommunicateController {
         return JSON.toJSONString(resource.list);
     }
 
-    class ShareResource {
+    @RequestMapping(value = "/callable")
+    public String callAbleThread() {
+        try {
+            //callable可以异步来使用
+            ShareResource resource = new ShareResource();
+            FutureTask<String> task = new FutureTask<String>(resource);
+            new Thread(task, "AAA").start();
+            return task.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            logger.info(e.toString());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return "什么也没有";
+    }
+
+
+    @RequestMapping(value = "/pool")
+    public String threadPoolExecutor() {
+        //查询所有的账户
+        List<UAccount> accountList = iAcountDaoManager.getAccountList();
+        //创建线程池处理数据
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(
+                2,
+                3,
+                2,
+                TimeUnit.SECONDS,
+                new LinkedBlockingQueue<Runnable>(3),
+                Executors.defaultThreadFactory(),
+                new ThreadPoolExecutor.AbortPolicy());
+        for (UAccount account : accountList) {
+            executor.execute(() -> {
+                logger.info(Thread.currentThread().getName() + " 线程池异步执行任务\t" + JSON.toJSONString(account));
+            });
+        }
+        return JSON.toJSONString(accountList);
+    }
+
+    class ShareResource implements Callable<String> {
 
         private List<String> list = Collections.synchronizedList(new ArrayList<>());
         private int num = 0;
@@ -113,5 +160,11 @@ public class ThreadCommunicateController {
             }
         }
 
+        @Override
+        public String call() throws Exception {
+            String result = UUID.randomUUID().toString().substring(0, 8);
+            logger.info(Thread.currentThread().getName() + "\t callable异步执行成功 UUID:" + result);
+            return result;
+        }
     }
 }

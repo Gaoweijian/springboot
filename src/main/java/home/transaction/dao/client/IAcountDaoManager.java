@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface IAcountDaoManager {
@@ -19,4 +21,7 @@ public interface IAcountDaoManager {
 
     @Delete("delete from u_acount where id=#{id}")
     public boolean delAcount(int id);
+
+    @Select("select * from u_acount")
+    List<UAccount> getAccountList();
 }
