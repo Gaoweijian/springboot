@@ -6,7 +6,10 @@ import home.transaction.service.client.IAcountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,7 +29,6 @@ public class RequestController {
     @Autowired
     private IAcountService acountService;
 
-
     @Autowired
     IAcountDaoManager iAcountDaoManager;
 
@@ -38,7 +40,7 @@ public class RequestController {
      * @创建时间 2020/12/18
      * @修改人和其它信息
      */
-    @RequestMapping(value = "/connection")
+    @RequestMapping(value = "/connection", method = RequestMethod.GET)
     public boolean startConnection() {
         Thread thread = Thread.currentThread();
         logger.trace("客户端连接成功");
@@ -56,5 +58,34 @@ public class RequestController {
     @RequestMapping(value = "/ccount")
     public UAccount getUAccountByName(String name) {
         return iAcountDaoManager.getAcount(name);
+    }
+
+    /**
+     * @描述
+     * @参数 []
+     * @返回值 boolean
+     * @创建人 gao侧耳倾听
+     * @创建时间 2020/12/18
+     * @修改人和其它信息
+     */
+    @RequestMapping(value = "/connection", method = RequestMethod.POST)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public boolean startConnection(String accountAName, String accountBName, int money) {
+        Thread thread = Thread.currentThread();
+        logger.trace("客户端连接成功");
+        UAccount accountA = iAcountDaoManager.getAcount(accountAName);
+        UAccount accountB = iAcountDaoManager.getAcount(accountBName);
+        if (accountA != null && accountB != null) {
+            accountA.setMoney(accountA.getMoney() - money);
+            iAcountDaoManager.updateAcount(accountA);
+            int i = 1 / 0;
+            accountB.setMoney(accountB.getMoney() + money);
+            iAcountDaoManager.updateAcount(accountB);
+            logger.info(accountAName + "\t向 " + accountBName + " 转账成功：" + money);
+            return true;
+        } else {
+            logger.info("用户数据不存在");
+            return false;
+        }
     }
 }
