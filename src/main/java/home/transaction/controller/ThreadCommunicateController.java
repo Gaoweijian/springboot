@@ -91,6 +91,36 @@ public class ThreadCommunicateController {
         return JSON.toJSONString(resource.list);
     }
 
+    @RequestMapping(value = "/dead/lock")
+    public String deadLock() {
+        String lockA = "lockA";
+        String lockB = "lockB";
+        new Thread(new DeadLockResource(lockA, lockB), "AAA").start();
+        new Thread(new DeadLockResource(lockB, lockA), "BBB").start();
+        return "deadLock模拟";
+    }
+
+    class DeadLockResource implements Runnable {
+
+        private String lockA;
+        private String lockB;
+
+        public DeadLockResource(String lockA, String lockB) {
+            this.lockA = lockA;
+            this.lockB = lockB;
+        }
+
+        @Override
+        public void run() {
+            synchronized (lockA) {
+                logger.info(Thread.currentThread().getName() + "\t 当前持有锁" + lockA + "\t 尝试持有锁：" + lockB);
+                synchronized (lockB) {
+                    logger.info(Thread.currentThread().getName() + "\t 当前持有锁" + lockB + "\t 尝试持有锁：" + lockA);
+                }
+            }
+        }
+    }
+
     class ConditionResource {
 
         private int          num        = 1;
