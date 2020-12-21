@@ -54,6 +54,104 @@ public class ThreadCommunicateController {
 
         return JSON.toJSONString(resource.list);
     }
+    
+    
+    @RequestMapping(value = "/condition")
+    public String threeConditionTry(int round) {
+
+        CountDownLatch downLatch = new CountDownLatch(3);
+        ConditionResource resource = new ConditionResource();
+
+        new Thread(() -> {
+            for (int i = 0; i < round; i++) {
+                resource.accountA();
+            }
+            downLatch.countDown();
+        }, "accountA").start();
+
+        new Thread(() -> {
+            for (int i = 0; i < round; i++) {
+                resource.accountB();
+            }
+            downLatch.countDown();
+
+        }, "accountB").start();
+
+        new Thread(() -> {
+            for (int i = 0; i < round; i++) {
+                resource.accountC();
+            }
+            downLatch.countDown();
+        }, "accountC").start();
+        try {
+            downLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return JSON.toJSONString(resource.list);
+    }
+
+    class ConditionResource {
+
+        private int          num        = 1;
+        private List<String> list       = Collections.synchronizedList(new ArrayList<>());
+        private Lock         lock       = new ReentrantLock();
+        private Condition    conditionA = lock.newCondition();
+        private Condition    conditionB = lock.newCondition();
+        private Condition    conditionC = lock.newCondition();
+
+        public void accountA() {
+            try {
+                lock.lock();
+                while (num != 1) {
+                    conditionA.await();
+                }
+                num = 2;
+                list.add(Thread.currentThread().getName());
+                conditionB.signal();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+
+        }
+
+        public void accountB() {
+            try {
+                lock.lock();
+                while (num != 2) {
+                    conditionB.await();
+                }
+                num = 3;
+                list.add(Thread.currentThread().getName());
+                conditionC.signal();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+
+        }
+
+        public void accountC() {
+            try {
+                lock.lock();
+                while (num != 3) {
+                    conditionC.await();
+                }
+                num = 1;
+                list.add(Thread.currentThread().getName());
+                conditionA.signal();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+
+        }
+
+    }
 
     class ShareResource {
 
