@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
+import java.util.stream.LongStream;
 
 /**
  * @Author: gao侧耳倾听
@@ -71,6 +72,15 @@ public class ForkJoinController {
             sumNum += i;
         }
         return sumNum;
+    }
+
+
+    @RequestMapping(value = "/java8")
+    public String java8Stream(Long startNum, Long endNum) {
+        Long startTime = System.currentTimeMillis();
+        Long sumNum = LongStream.range(startNum, endNum).parallel().reduce(startNum, Long::sum);
+        Long endTime = System.currentTimeMillis() - startTime;
+        return String.valueOf("startNum=" + startNum + "  endNum=" + endNum + " sumNum=" + sumNum + "  times=" + endTime);
     }
 
 }
