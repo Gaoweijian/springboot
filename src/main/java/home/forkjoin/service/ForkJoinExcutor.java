@@ -14,8 +14,8 @@ public class ForkJoinExcutor extends RecursiveTask<Long> {
 
     private final Long MAX_FORK = 10000L;
 
-    private Long startNum;
-    private Long endNum;
+    private volatile Long startNum;
+    private volatile Long endNum;
 
     public ForkJoinExcutor(Long startNum, Long endNum) {
         this.startNum = startNum;
@@ -25,7 +25,7 @@ public class ForkJoinExcutor extends RecursiveTask<Long> {
     @Override
     protected Long compute() {
 
-        if (endNum - startNum <= MAX_FORK) {
+        if ((endNum - startNum) <= MAX_FORK) {
             long sum = 0;
             for (long i = startNum; i <= endNum; i++) {
                 sum = sum + i;
@@ -38,7 +38,7 @@ public class ForkJoinExcutor extends RecursiveTask<Long> {
             ForkJoinExcutor left = new ForkJoinExcutor(startNum, middle);
             left.fork();
 
-            ForkJoinExcutor right = new ForkJoinExcutor(middle, endNum);
+            ForkJoinExcutor right = new ForkJoinExcutor(middle + 1, endNum);
             right.fork();
 
             return left.join() + right.join();

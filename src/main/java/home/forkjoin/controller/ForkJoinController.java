@@ -32,7 +32,7 @@ public class ForkJoinController {
      * @修改人和其它信息
      */
     @RequestMapping(value = "/excutor")
-    public String forkJoinExcutor(Long startNum, Long endNum) {
+    public String forkJoinExcutor(Long startNum, Long endNum) throws InterruptedException {
         Long startTime = System.currentTimeMillis();
         ForkJoinPool pool = new ForkJoinPool();
         ForkJoinTask forkJoinTask = new ForkJoinExcutor(startNum, endNum);

@@ -1,8 +1,9 @@
 /**
  * Alipay.com Inc. Copyright (c) 2004-2020 All Rights Reserved.
  */
-package com.java8;
+package home.java8.controller;
 
+import home.java8.dto.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -50,17 +51,38 @@ public class Java8Controller {
                 new Message(3, "消息3"),
                 new Message(4, "消息4"),
                 new Message(5, "消息5"),
-                new Message(6, "消息6"),
-                new Message(7, "消息7"),
-                new Message(8, "消息8"),
-                new Message(9, "消息9"),
-                new Message(0, "消息0")
+                new Message(6, ""),
+                new Message(7, ""),
+                new Message(8, ""),
+                new Message(9, ""),
+                new Message(0, "")
         );
+
+        //过滤
         list.stream().filter(o -> o.getCode() > 5).forEach((o) -> {
             logger.info(o.toString());
         });
+        //排序
+        list.stream().sorted((u, o) -> Integer.compare(o.getCode(), u.getCode())).forEach(
+                o -> {
+                    logger.info(String.valueOf(o.getCode()));
+                }
+        );
+        //匹配
+        //anyMatch有一个元素匹配就返回
+        logger.info("" + list.stream().anyMatch((o) -> o.getMsg().contains("6")));
+        //allMatch所有都   匹配的元素
+        logger.info("" + list.stream().allMatch((o) -> !o.getMsg().contains("6")));
+        //noneMatch所有都不匹配
+        logger.info("" + list.stream().noneMatch((o) -> o.getMsg().contains("6")));
 
-        list.stream().sorted((u, o) -> Integer.compare(u.getCode(), o.getCode()));
+        //统计
+        logger.info("" + list.stream().count());
+
+
+        //reduce
+        Optional<Message> optional = list.stream().reduce((u, o) -> new Message(u.getCode() + o.getCode(), u.getMsg() + "/" + o.getMsg()));
+        logger.info("" + optional.get());
     }
 
     private void optionalMethod(String e) {
