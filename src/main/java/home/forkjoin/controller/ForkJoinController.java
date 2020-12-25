@@ -1,11 +1,13 @@
 package home.forkjoin.controller;
 
+import home.forkjoin.service.ForkJoinCreateString;
 import home.forkjoin.service.ForkJoinExcutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.stream.LongStream;
@@ -81,6 +83,17 @@ public class ForkJoinController {
         Long sumNum = LongStream.range(startNum, endNum).parallel().reduce(startNum, Long::sum);
         Long endTime = System.currentTimeMillis() - startTime;
         return String.valueOf("startNum=" + startNum + "  endNum=" + endNum + " sumNum=" + sumNum + "  times=" + endTime);
+    }
+
+    @RequestMapping(value = "/create/string")
+    public List<String> forkJoinCreateString(Long size) {
+        Long startTime = System.currentTimeMillis();
+        ForkJoinPool pool = new ForkJoinPool();
+        ForkJoinCreateString forkJoinTask = new ForkJoinCreateString(1L, size);
+        List<String> list = pool.invoke(forkJoinTask);
+        Long endTime = System.currentTimeMillis() - startTime;
+        logger.info("size=" + list.size() + "  times=" + endTime + "ms  list=" + list);
+        return list;
     }
 
 }

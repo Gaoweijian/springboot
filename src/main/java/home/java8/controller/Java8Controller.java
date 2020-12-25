@@ -58,31 +58,42 @@ public class Java8Controller {
                 new Message(0, "")
         );
 
-        //过滤
-        list.stream().filter(o -> o.getCode() > 5).forEach((o) -> {
-            logger.info(o.toString());
+//        //过滤
+//        list.stream().filter(o -> o.getCode() > 5).forEach((o) -> {
+//            logger.info(o.toString());
+//        });
+//        //排序
+//        list.stream().sorted((u, o) -> Integer.compare(o.getCode(), u.getCode())).forEach(
+//                o -> {
+//                    logger.info(String.valueOf(o.getCode()));
+//                }
+//        );
+//        //匹配
+//        //anyMatch有一个元素匹配就返回
+//        logger.info("" + list.stream().anyMatch((o) -> o.getMsg().contains("6")));
+//        //allMatch所有都   匹配的元素
+//        logger.info("" + list.stream().allMatch((o) -> !o.getMsg().contains("6")));
+//        //noneMatch所有都不匹配
+//        logger.info("" + list.stream().noneMatch((o) -> o.getMsg().contains("6")));
+//
+//        //统计
+//        logger.info("" + list.stream().count());
+//
+//
+//        //reduce
+//        Optional<Message> optional = list.stream().reduce((u, o) -> new Message(u.getCode() + o.getCode(), u.getMsg() + "/" + o.getMsg()));
+//        logger.info("" + optional.get());
+//
+//
+//        //map
+//        list.stream().map((o) -> o.getCode()).forEach((o) -> {
+//            logger.info(o+"****");
+//        });
+
+        //flatMap
+        list.stream().flatMap(o -> Arrays.stream(o.getMsg().split(""))).forEach((o) -> {
+            logger.info(o + "****");
         });
-        //排序
-        list.stream().sorted((u, o) -> Integer.compare(o.getCode(), u.getCode())).forEach(
-                o -> {
-                    logger.info(String.valueOf(o.getCode()));
-                }
-        );
-        //匹配
-        //anyMatch有一个元素匹配就返回
-        logger.info("" + list.stream().anyMatch((o) -> o.getMsg().contains("6")));
-        //allMatch所有都   匹配的元素
-        logger.info("" + list.stream().allMatch((o) -> !o.getMsg().contains("6")));
-        //noneMatch所有都不匹配
-        logger.info("" + list.stream().noneMatch((o) -> o.getMsg().contains("6")));
-
-        //统计
-        logger.info("" + list.stream().count());
-
-
-        //reduce
-        Optional<Message> optional = list.stream().reduce((u, o) -> new Message(u.getCode() + o.getCode(), u.getMsg() + "/" + o.getMsg()));
-        logger.info("" + optional.get());
     }
 
     private void optionalMethod(String e) {
