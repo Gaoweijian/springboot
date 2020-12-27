@@ -6,11 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.concurrent.*;
 
@@ -47,6 +45,8 @@ public class DateController {
 
         logger.info(localDateTime.plusDays(1).toString());
         logger.info(localDateTime.minusDays(1).toString());
+
+        //Instant
 
         return "";
     }
@@ -90,7 +90,7 @@ public class DateController {
     @RequestMapping(value = "/test1")
     public String dateTest1(String key, String operate) {
 
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         Callable<Date> callable = new Callable() {
             @Override
@@ -110,7 +110,7 @@ public class DateController {
                 Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.AbortPolicy());
 
-//        List<Future<Date>> futureList = Collections.synchronizedList(new ArrayList<>());
+        //        List<Future<Date>> futureList = Collections.synchronizedList(new ArrayList<>());
 
         for (int i = 0; i < 10; i++) {
             try {
@@ -160,11 +160,35 @@ public class DateController {
     }
 
     @RequestMapping(value = "/instant")
-    public String dateinstant(String key, String operate) {
+    public String dateinstant(String key, String operate) throws InterruptedException {
 
         //默认获取UTC市区
         Instant instant = Instant.now();
         logger.info(instant.toString());
+
+
+        //Duration 计算2个时间之间的间隔
+        LocalTime time1 = LocalTime.now();
+        TimeUnit.SECONDS.sleep(1);
+        LocalTime time2 = LocalTime.now();
+        Duration duration = Duration.between(time1, time2);
+        logger.info("2个时间之间的间隔=" + duration.toMillis());
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        //Period 计算2个日期之间的间隔
+        LocalDate localDate1 = LocalDate.parse("20201224", formatter);
+        LocalDate localDate2 = LocalDate.parse("20201225", formatter);
+        Period period = Period.between(localDate1, localDate2);
+        logger.info("2个日期之间的间隔=" + period.getDays());
+
+
+        //TemporalAdjuster:时间矫正器
+        LocalDate localDate3 = LocalDate.now();
+        LocalDate localDate4 = localDate3.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+        logger.info("时间矫正器使用=" + localDate4.getDayOfWeek());
+
+
         return "";
     }
 

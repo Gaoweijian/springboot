@@ -1,8 +1,9 @@
 package home.transaction.controller;
 
 import com.alibaba.fastjson.JSON;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -28,21 +29,49 @@ public class VolatileController {
     //    System.out.println(Thread.currentThread().getName() + "\t " + num);
     //});
 
+    private final Logger logger = LoggerFactory.getLogger(VolatileController.class);
+
     private final String VOLATILE_STATUS = "true";
 
     private volatile List<String> list;
 
-     /**
-      *@描述 验证可见性
-      *@参数 [status]
-      *@返回值 int
-      *@创建人 gao侧耳倾听
-      *@创建时间 2020/12/18
-      *@修改人和其它信息
-      */
-     @RequestMapping(value = "/visible")
-    public int vildateVisible(@RequestParam(value = "status") boolean status) {
-        int countNum = 0;
+    private int visibleNum = 0;
+
+    /**
+     * @描述 验证可见性
+     * @参数 [status]
+     * @返回值 int
+     * @创建人 gao侧耳倾听
+     * @创建时间 2020/12/18
+     * @修改人和其它信息
+     */
+    @RequestMapping(value = "/visible")
+    public int vildateVisible(boolean status) {
+//         return validateVisibleTry(status);
+//         启动2个线程
+        //创建线程1
+        new Thread(() -> {
+            while (visibleNum == 0) {
+                logger.info("循环中/ visibleNum=" + visibleNum);
+            }
+            logger.info("跳出循环/ visibleNum=" + visibleNum);
+        }, "AAA").start();
+
+        //创建线程2
+        new Thread(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+                visibleNum = 100;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, "BBB").start();
+
+        //使用主线程
+        return visibleNum;
+    }
+
+    private int validateVisibleTry(boolean status) {
         VolatileResource resource = new VolatileResource();
         new Thread(() -> {
             try {
@@ -50,24 +79,25 @@ public class VolatileController {
                 TimeUnit.SECONDS.sleep(3);
                 resource.setNum100();
                 System.out.println(Thread.currentThread().getName() + " \t update" + (status ? resource.numVolatile : resource.numNoVolatile));
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }, status + "-volatile").start();
-        while ((status ? resource.numVolatile : resource.numNoVolatile) == 0) {}
+        while ((status ? resource.numVolatile : resource.numNoVolatile) == 0) {
+        }
         System.out.println(Thread.currentThread().getName() + "\t last " + (status ? resource.numVolatile : resource.numNoVolatile));
         return (status ? resource.numVolatile : resource.numNoVolatile);
     }
 
-     /**
-      *@描述 验证原子性
-      *@参数 []
-      *@返回值 int
-      *@创建人 gao侧耳倾听
-      *@创建时间 2020/12/18
-      *@修改人和其它信息
-      */
-     @RequestMapping(value = "/atomic")
+    /**
+     * @描述 验证原子性
+     * @参数 []
+     * @返回值 int
+     * @创建人 gao侧耳倾听
+     * @创建时间 2020/12/18
+     * @修改人和其它信息
+     */
+    @RequestMapping(value = "/atomic")
     public int validateVolatile() {
 
         CountDownLatch downLatch = new CountDownLatch(5);
@@ -91,18 +121,18 @@ public class VolatileController {
         return num.get();
     }
 
-     /**
-      *@描述 验证原子性
-      *@参数 []
-      *@返回值 java.lang.String
-      *@创建人 gao侧耳倾听
-      *@创建时间 2020/12/18
-      *@修改人和其它信息
-      */
-     @RequestMapping(value = "/atomic/list")
+    /**
+     * @描述 验证原子性
+     * @参数 []
+     * @返回值 java.lang.String
+     * @创建人 gao侧耳倾听
+     * @创建时间 2020/12/18
+     * @修改人和其它信息
+     */
+    @RequestMapping(value = "/atomic/list")
     public String validateVolatileList() {
 
-         list = new ArrayList<>();
+        list = new ArrayList<>();
         Thread thread = Thread.currentThread();
         System.out.println(thread.getName() + "\t 验证原子性");
         for (int i = 0; i < 5; i++) {

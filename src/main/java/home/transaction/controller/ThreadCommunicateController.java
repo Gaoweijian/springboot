@@ -62,8 +62,8 @@ public class ThreadCommunicateController {
 
         return JSON.toJSONString(resource.list);
     }
-    
-    
+
+
     @RequestMapping(value = "/condition")
     public String threeConditionTry(int round) {
 
@@ -129,14 +129,58 @@ public class ThreadCommunicateController {
         }
     }
 
+
+    @RequestMapping(value = "/yield")
+    public void yieldThread() {
+
+        Thread thread1 = new Thread(() -> {
+            for (int i = 0; i < 5; i++) {
+                logger.info(Thread.currentThread().getName() + "/" + i);
+            }
+        }, "AAA");
+        Thread thread2 = new Thread(() -> {
+            for (int i = 0; i < 5; i++) {
+                logger.info(Thread.currentThread().getName() + "/" + i);
+            }
+        }, "BBB");
+
+        thread1.start();
+        Thread.yield();
+        thread2.start();
+
+    }
+
+    @RequestMapping(value = "/join")
+    public void joinThread() throws InterruptedException {
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 100; i++) {
+                    logger.info("runnable/" + i);
+                }
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+
+        for (int i = 0; i < 100; i++) {
+            if (i == 50) {
+                thread.join();
+            }
+            logger.info("main/" + i);
+        }
+
+    }
+
     class ConditionResource {
 
-        private int          num        = 1;
-        private List<String> list       = Collections.synchronizedList(new ArrayList<>());
-        private Lock         lock       = new ReentrantLock();
-        private Condition    conditionA = lock.newCondition();
-        private Condition    conditionB = lock.newCondition();
-        private Condition    conditionC = lock.newCondition();
+        private int num = 1;
+        private List<String> list = Collections.synchronizedList(new ArrayList<>());
+        private Lock lock = new ReentrantLock();
+        private Condition conditionA = lock.newCondition();
+        private Condition conditionB = lock.newCondition();
+        private Condition conditionC = lock.newCondition();
 
         public void accountA() {
             try {
