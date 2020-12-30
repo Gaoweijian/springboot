@@ -166,4 +166,17 @@ public class VolatileController {
         }
     }
 
+    @RequestMapping(value = "/view")
+    public void towThreadViewData() {
+        String[] num = {"100"};
+        new Thread(() -> {
+            logger.info("AAA=" + num[0]);
+            num[0] = "200";
+        }, "AAA").start();
+
+        new Thread(() -> {
+            logger.info("BBB=" + num[0]);
+        }, "BBB").start();
+    }
+
 }

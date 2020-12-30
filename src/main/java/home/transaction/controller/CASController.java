@@ -32,6 +32,7 @@ public class CASController {
         Thread thread = Thread.currentThread();
         StringBuilder sb = new StringBuilder();
         AtomicInteger atomic = new AtomicInteger(initNum);
+        atomic.getAndIncrement();
         sb.append("initNum：" + initNum + " updateNum：" + updateNum);
         sb.append("    ");
         sb.append(thread.getName() + "-" + atomic.compareAndSet(initNum, updateNum));
