@@ -339,4 +339,26 @@ public class ThreadCommunicateController {
             return result;
         }
     }
+
+    @RequestMapping(value = "/semaphore")
+    public void semaphoreMethod() {
+        Semaphore semaphore = new Semaphore(3);
+        for (int i = 0; i < 10; i++) {
+            int finalI = i;
+            new Thread(() -> {
+                //占有资源
+                try {
+                    semaphore.acquire();
+                    logger.info(finalI + "\t 抢到车位");
+                    TimeUnit.SECONDS.sleep(3);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    //释放资源
+                    semaphore.release();
+                    logger.info(finalI + "\t 离开了车位");
+                }
+            }).start();
+        }
+    }
 }
