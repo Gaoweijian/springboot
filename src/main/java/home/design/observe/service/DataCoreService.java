@@ -1,11 +1,11 @@
 /**
  * Alipay.com Inc. Copyright (c) 2004-2020 All Rights Reserved.
  */
-package com.design.observe.service;
+package home.design.observe.service;
 
 import com.alibaba.fastjson.JSON;
-import com.design.observe.service.client.Observer;
-import com.design.observe.service.client.Subject;
+import home.design.observe.service.client.Observer;
+import home.design.observe.service.client.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

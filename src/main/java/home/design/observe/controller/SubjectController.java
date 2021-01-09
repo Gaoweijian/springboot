@@ -1,10 +1,10 @@
 /**
  * Alipay.com Inc. Copyright (c) 2004-2020 All Rights Reserved.
  */
-package com.design.observe.controller;
+package home.design.observe.controller;
 
-import com.design.observe.service.client.Observer;
-import com.design.observe.service.client.Subject;
+import home.design.observe.service.client.Observer;
+import home.design.observe.service.client.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

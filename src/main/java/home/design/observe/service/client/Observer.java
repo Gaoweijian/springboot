@@ -1,7 +1,7 @@
 /**
  * Alipay.com Inc. Copyright (c) 2004-2020 All Rights Reserved.
  */
-package com.design.observe.service.client;
+package home.design.observe.service.client;
 
 import lombok.Data;
 
