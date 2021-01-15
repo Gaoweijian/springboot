@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="home.transaction.dao.client.IAcountMapper">
+    <select id="getAcount" resultType="home.transaction.dto.UAccount" parameterType="java.lang.String">
+        select * from u_acount where name=#{name}
+    </select>
+    <update id="updateAcount" parameterType="home.transaction.dto.UAccount">
+        update u_acount set money=#{money},name=#{name} where id=#{id}
+    </update>
+    <delete id="delAcount" parameterType="java.lang.Integer">
+        delete from u_acount where id=#{id}
+    </delete>
+
+    <select id="getAcountByNameAndId" resultMap="BaseResultMap">
+        select * from u_acount where name=#{name} and id=#{id}
+    </select>
+
+
+    <resultMap id="BaseResultMap" type="home.transaction.dto.UAccount">
+        <result property="id" column="id" javaType="java.lang.Integer"></result>
+        <result property="name" column="name" javaType="java.lang.String"></result>
+        <result property="money" column="money" javaType="java.lang.Integer"></result>
+    </resultMap>
+
+    <select id="findAcountList" resultType="home.transaction.dto.UAccount">
+        select * from u_acount
+    </select>
+</mapper>

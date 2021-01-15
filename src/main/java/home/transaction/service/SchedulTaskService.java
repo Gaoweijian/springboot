@@ -2,7 +2,6 @@ package home.transaction.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 
@@ -18,7 +17,7 @@ public class SchedulTaskService {
 
     private final Logger logger = LoggerFactory.getLogger(SchedulTaskService.class);
 
-    @Scheduled(cron = "* * * * * ?")
+    //    @Scheduled(cron = "* * * * * ?")
     public void scheduTaskMethod() {
         logger.info("定时任务调度....................");
     }

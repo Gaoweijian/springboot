@@ -80,6 +80,11 @@
             <artifactId>mybatis</artifactId>
             <version>3.4.5</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>4.2.1</version>
+        </dependency>
         <!--springboot jquery依赖-->
         <!--<dependency>-->
         <!--<groupId>org.webjars</groupId>-->
