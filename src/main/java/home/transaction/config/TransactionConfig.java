@@ -25,7 +25,7 @@ public class TransactionConfig {
      * @param dataSource
      * @return
      */
-    @Bean(name = "transactionManagerDev")
+    @Bean(name = "transactionManager")
     public PlatformTransactionManager getPlatformTransactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
