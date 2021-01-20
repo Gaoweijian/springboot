@@ -27,11 +27,9 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 @RestController
 @RequestMapping("/thread/communicat")
-
 public class ThreadCommunicateController {
 
     private final Logger logger = LoggerFactory.getLogger(ThreadCommunicateController.class);
-
 
     @Autowired
     IAcountDaoManager iAcountDaoManager;

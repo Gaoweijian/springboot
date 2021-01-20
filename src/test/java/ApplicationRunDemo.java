@@ -1,6 +1,8 @@
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,7 +19,26 @@ public class ApplicationRunDemo {
     private static int visibleNum = 0;
 
     public static void main(String[] args) {
-        vildateVisible();
+
+//        vildateVisible();
+        streamTry();
+    }
+
+
+    public static void streamTry() {
+        List<User> uList1 = Arrays.asList(new User("1", "GAO"), new User("2", "wei"), new User("3", "jian"));
+
+        List<User> uList2 = Arrays.asList(new User("1", "GAO"), new User("2", "wei"), new User("3", "jian"));
+
+        uList1.stream().forEach(u1 -> {
+            uList2.stream().forEach(u2 -> {
+                if (u2.getId().equalsIgnoreCase(u1.id)) {
+                    u1.setName("匹配到了");
+                }
+            });
+            logger.info(u1.toString());
+        });
+
     }
 
     public static int vildateVisible() {
