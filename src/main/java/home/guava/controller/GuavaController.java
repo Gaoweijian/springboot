@@ -6,6 +6,7 @@ import home.guava.client.Converter;
 import home.guava.client.Formula;
 import home.guava.client.PersonFactory;
 import home.guava.po.Person;
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -30,6 +31,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "guava")
 public class GuavaController {
+
+
     /**
      * 日志打印
      */
@@ -44,9 +47,31 @@ public class GuavaController {
         //        optionalMethod();
         //        QueryWrapper wrapper;
         //        streamsMethod();
-        mapsMethod();
+        //        mapsMethod();
+        genericityMethod();
 
     }
+
+    /**
+     * @描述 泛型演习
+     * @参数 []
+     * @返回值 void
+     * @创建人 gao侧耳倾听
+     * @创建时间 2021/1/24
+     * @修改人
+     */
+    private void genericityMethod() {
+
+        Plate plate = new Plate<Apple>(new Apple("我是苹果"));
+        plate.setItem(new Apple("我是苹果"));
+        logger.info("[泛型演习]plate={}", plate.getItem());
+
+        Plate<? super Fruit> plate1 = new Plate<>(new Apple("我是苹果"));
+        plate1.setItem(new Fruit("我是水果"));
+        logger.info("[泛型演习]plate1={}", plate1.getItem());
+
+    }
+
 
     /**
      * @描述 maps
@@ -249,5 +274,56 @@ public class GuavaController {
         };
         logger.info("[练习使用guava工具类]formula={}", formula.calculate(100));
         logger.info("[练习使用guava工具类]formula={}", formula.sqrt(16));
+    }
+}
+
+
+/**
+ * 泛型类
+ */
+class Owner<T> {
+    public T operateMethod(T paramer) {
+        return paramer;
+    }
+
+    /**
+     * 泛型方法
+     *
+     * @param vue
+     * @param <V>
+     */
+    public <V> void operateV(V vue) {
+
+    }
+}
+
+@Data
+class Fruit {
+    private String name;
+
+    public Fruit(String name) {
+        this.name = name;
+    }
+}
+
+class Apple extends Fruit {
+    public Apple(String name) {
+        super(name);
+    }
+}
+
+class Plate<T extends Fruit> {
+    private T item;
+
+    public Plate(T t) {
+        item = t;
+    }
+
+    public T getItem() {
+        return item;
+    }
+
+    public void setItem(T t) {
+        item = t;
     }
 }
