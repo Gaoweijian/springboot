@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @Author: gao侧耳倾听
@@ -21,7 +22,9 @@ public class ApplicationRunDemo {
     public static void main(String[] args) {
 
 //        vildateVisible();
-        streamTry();
+//        streamTry();
+        List<User> uList1 = Arrays.asList(new User("1", "GAO"), new User("2", "wei"), new User("3", "jian"));
+        List<User> uList2 = uList1.stream().filter(o -> o.getId().equals("1")).collect(Collectors.toList());
     }
 
 
