@@ -2,11 +2,16 @@ package home.docx.controller;
 
 import home.utils.DocxUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * @Author: gao侧耳倾听
@@ -30,8 +35,13 @@ public class DocxController {
      * @修改人
      */
     @RequestMapping(value = "read")
-    public String readDocxDel(MultipartFile docx) throws IOException {
-        String fileName = docx.getName();
-        return DocxUtil.parseDocByHWPFDocument(docx.getInputStream(), fileName);
+    public void readDocxDel(MultipartFile docx, HttpServletResponse response) throws IOException {
+        String docxStr = DocxUtil.parseDocByHWPFDocument(docx.getInputStream(), docx.getName());
+        InputStream is = new ByteArrayInputStream(docxStr.getBytes());
+        OutputStream os = response.getOutputStream();
+        XWPFDocument doc = new XWPFDocument(is);
+        response.setContentType("application/msword");
+        response.setHeader("Content-disposition", "attachment;filename=" + "转换.doc");
+        doc.write(os);
     }
 }
