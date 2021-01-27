@@ -9,6 +9,7 @@ import org.apache.poi.hwpf.usermodel.Range;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,8 +22,6 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public class DocxUtil {
-
-    private static final String regx = "(?<=（).*?(?=）)";
 
     /**
      * @描述 读取docx内容
@@ -57,14 +56,14 @@ public class DocxUtil {
      * @创建时间 2021/1/26
      * @修改人
      */
-    public static String parseDocByHWPFDocument(String filePath, String fileName) {
+    public static String parseDocByHWPFDocument(InputStream inputStream, String fileName) throws IOException {
         StringBuffer docxNew = new StringBuffer();
         ProblemTypeEnum statusEnum = null;
         try (
-                FileInputStream is = new FileInputStream(new File(filePath + "\\" + fileName));
+                FileInputStream is = (FileInputStream) inputStream;
                 HWPFDocument document = new HWPFDocument(is);
         ) {
-            log.info("[DocxUtil]读取docx内容,START,filePath={},fileName={}", filePath, fileName);
+            log.info("[DocxUtil]读取docx内容,START,fileName={}", fileName);
             //区间
             Range range = document.getRange();
             for (int i = 0; i < range.numParagraphs(); i++) {
@@ -75,7 +74,7 @@ public class DocxUtil {
                 //如果遇到填空题/选择题/判断题三个字,下一行就开始处理数据
                 ProblemTypeEnum typeEnum = ProblemTypeEnum.getProblemTypeEnumContainsDesc(paragraphText);
                 if (typeEnum != null) {
-                    if (typeEnum.code == ProblemTypeEnum.ANSWER.code) {
+                    if (ProblemTypeEnum.ANSWER.code.equals(typeEnum.code)) {
                         break;
                     }
                     docxNew.append(paragraphText);
@@ -86,10 +85,12 @@ public class DocxUtil {
                     docxNew.append(problemStrExecute(paragraphText, statusEnum));
                 }
             }
+            log.info("[DocxUtil]读取docx内容,SUCCESS");
+            return docxNew.toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("[DocxUtil]读取docx内容,FAIL,msg={}", e.getMessage(), e);
+            throw e;
         }
-        return docxNew.toString();
     }
 
     /**
@@ -104,7 +105,7 @@ public class DocxUtil {
         switch (typeEnum) {
             case BLANK: {
                 //分解内容
-                String matchStr = matchStr(regx, content);
+                String matchStr = matchStr("(?<=（).*?(?=）)", content);
                 String subContent = content.replace(matchStr, "").replace("\r", " [填空题]");
                 return subContent + "\n" + "答案：" + matchStr + "\r\n";
             }

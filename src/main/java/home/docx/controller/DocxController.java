@@ -30,7 +30,8 @@ public class DocxController {
      * @修改人
      */
     @RequestMapping(value = "read")
-    public String readDocxDel(String path, String name, MultipartFile file) throws IOException {
-        return DocxUtil.parseDocByHWPFDocument(path, name);
+    public String readDocxDel(MultipartFile docx) throws IOException {
+        String fileName = docx.getName();
+        return DocxUtil.parseDocByHWPFDocument(docx.getInputStream(), fileName);
     }
 }
