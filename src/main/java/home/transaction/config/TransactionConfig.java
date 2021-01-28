@@ -1,11 +1,6 @@
 package home.transaction.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
-
-import javax.sql.DataSource;
 
 /**
  * @Author: gao侧耳倾听
@@ -25,8 +20,8 @@ public class TransactionConfig {
      * @param dataSource
      * @return
      */
-    @Bean(name = "transactionManager")
-    public PlatformTransactionManager getPlatformTransactionManager(DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
+//    @Bean(name = "transactionManager")
+//    public PlatformTransactionManager getPlatformTransactionManager(DataSource dataSource) {
+//        return new DataSourceTransactionManager(dataSource);
+//    }
 }

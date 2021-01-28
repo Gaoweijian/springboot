@@ -6,4 +6,8 @@ public interface IAcountService {
     public boolean transationAcount(String acountA, String acountB, int money);
 
     boolean updateAccount(UAccount account);
+
+    void testTransactional();
+
+    void testTransactional2();
 }

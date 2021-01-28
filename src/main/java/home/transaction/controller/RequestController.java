@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -87,5 +88,19 @@ public class RequestController {
             logger.info("用户数据不存在");
             return false;
         }
+    }
+
+    @PostMapping(value = "test/transactional")
+    public void testTransactional() {
+        logger.info("[testTransactional]START");
+        acountService.testTransactional();
+        logger.info("[testTransactional]END");
+    }
+
+    @PostMapping(value = "test/transactional2")
+    public void testTransactional2() {
+        logger.info("[testTransactional]START");
+        acountService.testTransactional2();
+        logger.info("[testTransactional]END");
     }
 }
