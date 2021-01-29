@@ -17,6 +17,10 @@ public class AcountServiceImpl implements IAcountService {
     @Autowired
     IAcountDao acountDao;
 
+
+    @Autowired
+    QuartzDemoService quartzDemoService;
+
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public boolean transationAcount(String acountA, String acountB, int money) {
         UAccount accountA = acountDao.getAcount(acountA);
@@ -55,9 +59,9 @@ public class AcountServiceImpl implements IAcountService {
     public void testTransactional() {
         log.info("[事务测试]stemp={}", 1);
         try {
-//            updateAcount();
+            updateAcount();
             log.info("[事务测试]stemp={}", 2);
-            saveAcount();
+            quartzDemoService.saveAcount();
             log.info("[事务测试]stemp={}", 3);
         } catch (Exception e) {
             log.error("[事务测试]Exception={}", e.getMessage());
@@ -83,7 +87,6 @@ public class AcountServiceImpl implements IAcountService {
         log.info("[事务测试]updateAcount={}", 3);
     }
 
-
     /**
      * @描述
      * @参数 []
@@ -94,7 +97,7 @@ public class AcountServiceImpl implements IAcountService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void saveAcount() {
-        try {
+        /*try {
             log.info("[事务测试]saveAcount={}", 1);
             UAccount accountA = acountDao.getAcount("李四");
             accountA.setMoney(30);
@@ -105,15 +108,15 @@ public class AcountServiceImpl implements IAcountService {
         } catch (Exception e) {
             e.printStackTrace();
             log.info("[事务测试]saveAcount={}", 4);
-        }
+        }*/
 
-//        log.info("[事务测试]saveAcount={}", 1);
-//        UAccount accountA = acountDao.getAcount("李四");
-//        accountA.setMoney(30);
-//        log.info("[事务测试]saveAcount={}", 2);
-//        int i = 1 / 0;
-//        acountDao.updateAcount(accountA);
-//        log.info("[事务测试]saveAcount={}", 3);
+        log.info("[事务测试]saveAcount={}", 1);
+        UAccount accountA = acountDao.getAcount("李四");
+        accountA.setMoney(30);
+        log.info("[事务测试]saveAcount={}", 2);
+        int i = 1 / 0;
+        acountDao.updateAcount(accountA);
+        log.info("[事务测试]saveAcount={}", 3);
     }
 
 

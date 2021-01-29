@@ -1,5 +1,6 @@
 package home.transaction.controller;
 
+import home.token.Token;
 import home.transaction.dao.client.IAcountDaoManager;
 import home.transaction.dto.UAccount;
 import home.transaction.service.client.IAcountService;
@@ -42,6 +43,7 @@ public class RequestController {
      * @修改人和其它信息
      */
     @RequestMapping(value = "/connection", method = RequestMethod.GET)
+    @Token(save = true)
     public boolean startConnection() {
         Thread thread = Thread.currentThread();
         logger.trace("客户端连接成功");
@@ -57,6 +59,7 @@ public class RequestController {
      * @修改人和其它信息
      */
     @RequestMapping(value = "/ccount")
+    @Token(remove = true)
     public UAccount getUAccountByName(String name) {
         return iAcountDaoManager.getAcount(name);
     }

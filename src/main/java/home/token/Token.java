@@ -1,5 +1,7 @@
 package home.token;
 
+import java.lang.annotation.*;
+
 /**
  * @Author: gao侧耳倾听
  * @License: (C) Copyright 2005-2021, xxx Corporation Limited.
@@ -7,6 +9,9 @@ package home.token;
  * @Version: 1.0
  * @Description:
  */
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
 public @interface Token {
     boolean save() default false;
 
