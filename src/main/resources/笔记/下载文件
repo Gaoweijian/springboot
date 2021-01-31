@@ -1,0 +1,13 @@
+//        InputStream in = new ByteArrayInputStream(docxStr.getBytes());
+//        OutputStream out = response.getOutputStream();
+//        response.setCharacterEncoding("utf-8");
+//        response.setContentType("multipart/form-data");
+//        response.setHeader("Content-disposition", "attachment;filename=" + "word.doc");
+//
+//        int byteRead = 0;
+//        byte[] buffer = new byte[512];
+//        while ((byteRead = in.read(buffer)) != -1) {
+//            out.write(buffer, 0, byteRead);
+//        }
+//        in.close();
+//        out.close();

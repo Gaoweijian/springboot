@@ -5,15 +5,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<div th:text="${version}"></div>
-<table>
-    <tr>
-        <th>NAME</th>
-    </tr>
-    <tr th:each="user : ${users}">
-        <td th:text="${user}"></td>
-    </tr>
-</table>
+
+<!-- 表单提交用户信息,注意字段的设置,直接是*{} -->
+<form action="#" th:action="@{/docx/read}" method="post" enctype="multipart/form-data">
+    <input type="file" name="docx"/>
+    <input type="submit"/>
+</form>
 
 </body>
 </html>
