@@ -10,4 +10,6 @@ public interface IAcountService {
     void testTransactional();
 
     void testTransactional2();
+
+    void transactionPropagation();
 }

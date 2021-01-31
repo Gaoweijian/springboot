@@ -1,10 +1,10 @@
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * @Author: gao侧耳倾听
@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
  * @Version: 1.0
  * @Description:
  */
+@Slf4j
 public class ApplicationRunDemo {
 
     private static final Logger logger = LoggerFactory.getLogger(ApplicationRunDemo.class);
@@ -23,8 +24,29 @@ public class ApplicationRunDemo {
 
 //        vildateVisible();
 //        streamTry();
-        List<User> uList1 = Arrays.asList(new User("1", "GAO"), new User("2", "wei"), new User("3", "jian"));
-        List<User> uList2 = uList1.stream().filter(o -> o.getId().equals("1")).collect(Collectors.toList());
+//        List<User> uList1 = Arrays.asList(new User("1", "GAO"), new User("2", "wei"), new User("3", "jian"));
+//        List<User> uList2 = uList1.stream().filter(o -> o.getId().equals("1")).collect(Collectors.toList());
+
+        List<Integer> messages = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+        batchSendMessage(messages);
+    }
+
+    /**
+     * @描述 批量发送消息 注:发送消息的类型必须相同
+     * @参数 [messages]
+     * @返回值 MessageCenterResponse
+     * @创建人 gao侧耳倾听
+     * @创建时间 2021/1/30
+     * @修改人
+     */
+    public static void batchSendMessage(List<Integer> messages) {
+        log.info("[消息中心]批量发送消息,START,messages={}", messages);
+        if (messages.size() < 3) {
+            log.info("[消息中心]messages={}", messages);
+        } else {
+            log.info("[消息中心]messages={}", messages.subList(0, 3));
+            batchSendMessage(messages.subList(3, messages.size()));
+        }
     }
 
 

@@ -61,6 +61,8 @@ public class AcountServiceImpl implements IAcountService {
         try {
             updateAcount();
             log.info("[事务测试]stemp={}", 2);
+            CommonVariable.map.put("key", "gao");
+            log.info("[事务测试]map={}", CommonVariable.map);
             quartzDemoService.saveAcount();
             log.info("[事务测试]stemp={}", 3);
         } catch (Exception e) {
@@ -136,5 +138,19 @@ public class AcountServiceImpl implements IAcountService {
         log.info("[事务测试]stemp={}", 2);
         saveAcount();
         log.info("[事务测试]stemp={}", 3);
+    }
+
+    /**
+     * @描述
+     * @参数 []
+     * @返回值 void
+     * @创建人 gao侧耳倾听
+     * @创建时间 2021/1/30
+     * @修改人
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void transactionPropagation() {
+
     }
 }

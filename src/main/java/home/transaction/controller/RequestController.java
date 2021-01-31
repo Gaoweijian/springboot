@@ -1,9 +1,10 @@
 package home.transaction.controller;
 
-import home.token.Token;
 import home.transaction.dao.client.IAcountDaoManager;
 import home.transaction.dto.UAccount;
+import home.transaction.service.CommonVariable;
 import home.transaction.service.client.IAcountService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version: 1.0
  * @Description:
  */
+@Slf4j
 @RestController
 @RequestMapping(value = "home/transaction")
 public class RequestController {
@@ -42,11 +44,10 @@ public class RequestController {
      * @创建时间 2020/12/18
      * @修改人和其它信息
      */
-    @RequestMapping(value = "/connection", method = RequestMethod.GET)
-    @Token(save = true)
+    @RequestMapping(value = "/connections", method = RequestMethod.GET)
     public boolean startConnection() {
-        Thread thread = Thread.currentThread();
         logger.trace("客户端连接成功");
+        log.info("[事务测试]map={}", CommonVariable.map);
         return acountService.transationAcount("张三", "李四", 1);
     }
 
@@ -59,7 +60,6 @@ public class RequestController {
      * @修改人和其它信息
      */
     @RequestMapping(value = "/ccount")
-    @Token(remove = true)
     public UAccount getUAccountByName(String name) {
         return iAcountDaoManager.getAcount(name);
     }
@@ -105,5 +105,10 @@ public class RequestController {
         logger.info("[testTransactional]START");
         acountService.testTransactional2();
         logger.info("[testTransactional]END");
+    }
+
+    @PostMapping("/propagation")
+    public void transactionPropagation() {
+        acountService.transactionPropagation();
     }
 }
