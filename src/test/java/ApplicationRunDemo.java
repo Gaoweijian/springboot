@@ -3,6 +3,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +30,46 @@ public class ApplicationRunDemo {
 
         List<Integer> messages = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
         batchSendMessage(messages);
+
+//        log.info(convertStr(null));
+//        log.info(convertStr(BigDecimal.valueOf(1470.82)));
+
+//        SalesVolumeMessageData data = new SalesVolumeMessageData();
+//        data.setMonthAmount(new BigDecimal(1457.25));
+//        data.setMonthTurnoverRatio(56.52D);
+//        data.setEstimateTurnoverRatio(157.23D);
+//        log.info(constructAlertContent(data));
+
+        HashMap map = null;
+        map.keySet().forEach(o -> {
+            log.info("{}", o);
+        });
+    }
+
+    /**
+     * @描述 组装极光弹窗内容
+     * @参数 []
+     * @返回值 java.lang.String
+     * @创建人 gao侧耳倾听
+     * @创建时间 2021/2/1
+     * @修改人
+     */
+    public static String constructAlertContent(SalesVolumeMessageData msgData) {
+        StringBuffer content = new StringBuffer();
+        content.append("截至当天实际:" + convertStr(msgData.getMonthAmount()));
+        content.append("  ");
+        content.append("当月总达成率:" + convertStr(msgData.getMonthTurnoverRatio()) + "%");
+        content.append("  ");
+        content.append("预估达成率:" + convertStr(msgData.getEstimateTurnoverRatio()) + "%");
+        return content.toString();
+    }
+
+
+    private static <T> String convertStr(T t) {
+        if (t != null) {
+            return t.toString();
+        }
+        return "--";
     }
 
     /**
