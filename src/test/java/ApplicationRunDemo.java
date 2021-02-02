@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @Author: gao侧耳倾听
@@ -28,22 +30,63 @@ public class ApplicationRunDemo {
 //        List<User> uList1 = Arrays.asList(new User("1", "GAO"), new User("2", "wei"), new User("3", "jian"));
 //        List<User> uList2 = uList1.stream().filter(o -> o.getId().equals("1")).collect(Collectors.toList());
 
-        List<Integer> messages = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-        batchSendMessage(messages);
+//        List<Integer> messages = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+//        batchSendMessage(messages);
 
 //        log.info(convertStr(null));
 //        log.info(convertStr(BigDecimal.valueOf(1470.82)));
 
 //        SalesVolumeMessageData data = new SalesVolumeMessageData();
 //        data.setMonthAmount(new BigDecimal(1457.25));
-//        data.setMonthTurnoverRatio(56.52D);
+//        data.setMonthTurnoverRatio(null);
 //        data.setEstimateTurnoverRatio(157.23D);
 //        log.info(constructAlertContent(data));
 
-        HashMap map = null;
-        map.keySet().forEach(o -> {
-            log.info("{}", o);
-        });
+//        HashMap map = null;
+//        map.keySet().forEach(o -> {
+//            log.info("{}", o);
+//        });
+
+//        Map map = new HashMap<>();
+//        map.put("int",null);
+//
+//        BigDecimal bigDecimal = (BigDecimal) map.get("int");
+//        log.info("{}",bigDecimal);
+
+        Map<String, List<User>> map = new HashMap() {
+            {
+                put("gao", Arrays.asList(new User("1", "user")));
+                put("wei", Arrays.asList(new User("2", "user")));
+                put("jian", Arrays.asList(new User("3", "user"), new User("2", "USER2")));
+            }
+        };
+
+
+        List<String> ids = map.keySet().stream().collect(Collectors.toList());
+
+        log.info("{}", ids);
+
+        List<Map<String, String>> listMap = Arrays.asList(
+                new HashMap() {{
+                    put("id", "1");
+                    put("name", "gao");
+                }},
+                new HashMap() {{
+                    put("id", "2");
+                    put("name", "wei");
+                }},
+                new HashMap() {{
+                    put("id", "3");
+                    put("name", "jian");
+                }}
+        );
+
+
+        Map<String, User> userMap = listMap.stream().map(o -> new User(o.get("id"), o.get("name"))).collect(Collectors.toMap(
+                User::getId, o -> o
+        ));
+        log.info("userMap={}", userMap);
+
     }
 
     /**
@@ -55,12 +98,18 @@ public class ApplicationRunDemo {
      * @修改人
      */
     public static String constructAlertContent(SalesVolumeMessageData msgData) {
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         content.append("截至当天实际:" + convertStr(msgData.getMonthAmount()));
-        content.append("  ");
-        content.append("当月总达成率:" + convertStr(msgData.getMonthTurnoverRatio()) + "%");
-        content.append("  ");
-        content.append("预估达成率:" + convertStr(msgData.getEstimateTurnoverRatio()) + "%");
+        content.append("\n");
+        content.append("当月总达成率:" + convertStr(msgData.getMonthTurnoverRatio()));
+        if (msgData.getMonthTurnoverRatio() != null) {
+            content.append("%");
+        }
+        content.append("\n");
+        content.append("预估达成率:" + convertStr(msgData.getEstimateTurnoverRatio()));
+        if (msgData.getEstimateTurnoverRatio() != null) {
+            content.append("%");
+        }
         return content.toString();
     }
 
