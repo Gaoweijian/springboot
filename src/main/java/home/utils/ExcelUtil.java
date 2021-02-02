@@ -11,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author: gao侧耳倾听
@@ -21,6 +22,16 @@ import java.util.HashMap;
  */
 @Slf4j
 public class ExcelUtil {
+
+
+    private static Map<Integer, String> keyMap = new HashMap();
+
+    static {
+        keyMap.put(0, "cityName");
+        keyMap.put(1, "cityCode");
+        keyMap.put(2, "empName");
+        keyMap.put(3, "empNo");
+    }
 
     /**
      * @描述
@@ -51,21 +62,16 @@ public class ExcelUtil {
         for (int rIndex = firstRowIndex; rIndex <= lastRowIndex; rIndex++) {
             Row row = sheet.getRow(rIndex);
             if (row != null) {
+                int firstColumn = row.getFirstCellNum();
+                int lastColumn = row.getLastCellNum();
                 HashMap map = new HashMap<>();
-                //第一列:城市名称
-                String cityName = row.getCell(0).getStringCellValue();
-                map.put("cityName", cityName);
-                //第二列:城市名称
-                String cityCode = row.getCell(1).getStringCellValue();
-                map.put("cityCode", cityCode);
-                //第三列:员工名称
-                String empName = row.getCell(2).getStringCellValue();
-                map.put("empName", empName);
-                //第四列:员工编号
-                Cell cell = row.getCell(3);
-                cell.setCellType(Cell.CELL_TYPE_STRING);
-                String empNo = cell.getStringCellValue();
-                map.put("empNo", empNo);
+                for (int i = firstColumn; i < lastColumn; i++) {
+                    //获取单元格
+                    Cell cell = row.getCell(i);
+                    cell.setCellType(Cell.CELL_TYPE_STRING);
+                    String value = cell.getStringCellValue();
+                    map.put(keyMap.get(i), value);
+                }
                 map.put("id", UUIDGenerator.getUUID());
                 sb.append(FreemarkerUtil.renderHtml("createUserCitySql.html", map));
                 sb.append("\n");
