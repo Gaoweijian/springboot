@@ -58,6 +58,8 @@ public class ExcelUtil {
         //第一行是列名，所以不读
         int firstRowIndex = sheet.getFirstRowNum() + 1;
         int lastRowIndex = sheet.getLastRowNum();
+        sb.append("总条数=" + lastRowIndex);
+        sb.append("\n\n");
         //遍历行
         for (int rIndex = firstRowIndex; rIndex <= lastRowIndex; rIndex++) {
             Row row = sheet.getRow(rIndex);
