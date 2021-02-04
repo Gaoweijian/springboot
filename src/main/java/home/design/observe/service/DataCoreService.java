@@ -13,9 +13,14 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * @author wb-gwj607956
- * @version $Id: DataCoreService.java, v 0.1 2020年12月22日 13:42 wb-gwj607956 Exp $
+ * @Author: gao侧耳倾听
+ * @License: (C) Copyright 2005-2021/2/3, xxx Corporation Limited.
+ * @Contact: xxx@xxx.com
+ * @Date: 2021/2/3 下午 02:11
+ * @Version: 1.0
+ * @Description:
  */
 @Service
 public class DataCoreService implements Subject {
@@ -47,10 +52,11 @@ public class DataCoreService implements Subject {
     @Override
     public String notifyObserver(String msg) {
         logger.info("通知观察者" + msg);
-        observers.forEach((observer) -> {
-            observer.updateMsg(msg);
-            logger.info(observer.getName() + "/通知观察者成功");
-        });
+        observers.forEach(
+                (observer) -> {
+                    observer.updateMsg(msg);
+                    logger.info(observer.getName() + "/通知观察者成功");
+                });
         return JSON.toJSONString(observers);
     }
 }

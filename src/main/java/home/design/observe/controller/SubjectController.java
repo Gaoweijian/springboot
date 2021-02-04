@@ -1,6 +1,3 @@
-/**
- * Alipay.com Inc. Copyright (c) 2004-2020 All Rights Reserved.
- */
 package home.design.observe.controller;
 
 import home.design.observe.service.client.Observer;
@@ -10,9 +7,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 /**
- * @author wb-gwj607956
- * @version $Id: SubjectController.java, v 0.1 2020年12月22日 14:08 wb-gwj607956 Exp $
+ * @Author: gao侧耳倾听
+ * @License: (C) Copyright 2005-2021/2/3, xxx Corporation Limited.
+ * @Contact: xxx@xxx.com
+ * @Date: 2021/2/3 下午 02:45
+ * @Version: 1.0
+ * @Description:
  */
 @RestController
 @RequestMapping(value = "/subject")

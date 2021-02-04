@@ -109,7 +109,6 @@ public class DateController {
                 new LinkedBlockingQueue<Runnable>(3),
                 Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.AbortPolicy());
-
         //        List<Future<Date>> futureList = Collections.synchronizedList(new ArrayList<>());
 
         for (int i = 0; i < 10; i++) {
