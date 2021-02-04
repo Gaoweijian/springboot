@@ -1,8 +1,8 @@
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -86,12 +86,37 @@ public class ApplicationRunDemo {
 //        log.info("userMap={}", userMap);
 
 
-        User user = new User("1", "gaoweijian");
-        User user2 = new User("2", "");
-        BeanUtils.copyProperties(user, user2);
-        user2.setName("zhaoyu-wife");
-        log.info("user={},user2={}", user, user2);
+//        User user = new User("1", "gaoweijian");
+//        User user2 = new User("2", "");
+//        BeanUtils.copyProperties(user, user2);
+//        user2.setName("zhaoyu-wife");
+//        log.info("user={},user2={}", user, user2);
 
+
+        log.info("{}", convertDouble(null));
+
+        log.info("{}", convertDouble(0.23258754));
+
+        log.info("{}", convertDouble(1.568654545441231));
+
+
+    }
+
+
+    /**
+     * @描述 转换
+     * @参数 [rate]
+     * @返回值 java.lang.Double
+     * @创建人 gao侧耳倾听
+     * @创建时间 2021/2/4
+     * @修改人
+     */
+    private static Double convertDouble(Double rate) {
+        if (rate != null) {
+            DecimalFormat df = new DecimalFormat("##0.00");
+            return Double.parseDouble(df.format(rate * 100));
+        }
+        return null;
     }
 
     /**
