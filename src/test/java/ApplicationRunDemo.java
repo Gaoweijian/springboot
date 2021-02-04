@@ -1,13 +1,11 @@
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * @Author: gao侧耳倾听
@@ -53,39 +51,46 @@ public class ApplicationRunDemo {
 //        BigDecimal bigDecimal = (BigDecimal) map.get("int");
 //        log.info("{}",bigDecimal);
 
-        Map<String, List<User>> map = new HashMap() {
-            {
-                put("gao", Arrays.asList(new User("1", "user")));
-                put("wei", Arrays.asList(new User("2", "user")));
-                put("jian", Arrays.asList(new User("3", "user"), new User("2", "USER2")));
-            }
-        };
+//        Map<String, List<User>> map = new HashMap() {
+//            {
+//                put("gao", Arrays.asList(new User("1", "user")));
+//                put("wei", Arrays.asList(new User("2", "user")));
+//                put("jian", Arrays.asList(new User("3", "user"), new User("2", "USER2")));
+//            }
+//        };
+//
+//
+//        List<String> ids = map.keySet().stream().collect(Collectors.toList());
+//
+//        log.info("{}", ids);
+//
+//        List<Map<String, String>> listMap = Arrays.asList(
+//                new HashMap() {{
+//                    put("id", "1");
+//                    put("name", "gao");
+//                }},
+//                new HashMap() {{
+//                    put("id", "2");
+//                    put("name", "wei");
+//                }},
+//                new HashMap() {{
+//                    put("id", "3");
+//                    put("name", "jian");
+//                }}
+//        );
+//
+//
+//        Map<String, User> userMap = listMap.stream().map(o -> new User(o.get("id"), o.get("name"))).collect(Collectors.toMap(
+//                User::getId, o -> o
+//        ));
+//        log.info("userMap={}", userMap);
 
 
-        List<String> ids = map.keySet().stream().collect(Collectors.toList());
-
-        log.info("{}", ids);
-
-        List<Map<String, String>> listMap = Arrays.asList(
-                new HashMap() {{
-                    put("id", "1");
-                    put("name", "gao");
-                }},
-                new HashMap() {{
-                    put("id", "2");
-                    put("name", "wei");
-                }},
-                new HashMap() {{
-                    put("id", "3");
-                    put("name", "jian");
-                }}
-        );
-
-
-        Map<String, User> userMap = listMap.stream().map(o -> new User(o.get("id"), o.get("name"))).collect(Collectors.toMap(
-                User::getId, o -> o
-        ));
-        log.info("userMap={}", userMap);
+        User user = new User("1", "gaoweijian");
+        User user2 = new User("2", "");
+        BeanUtils.copyProperties(user, user2);
+        user2.setName("zhaoyu-wife");
+        log.info("user={},user2={}", user, user2);
 
     }
 
