@@ -10,10 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author: gao侧耳倾听
@@ -110,5 +109,31 @@ public class RequestController {
     @PostMapping("/propagation")
     public void transactionPropagation() {
         acountService.transactionPropagation();
+    }
+
+
+    /**
+     * mybatis-tenant 多租户测试
+     */
+    @PostMapping(value = "tenant")
+    public void mybatisTenantTest(@RequestBody UAccount account) {
+
+        //新增
+        log.info("[mybatis-plus多租户测试]saveAccount,result={}", iAcountDaoManager.saveAccount(account));
+
+        //修改
+        account.setMoney(100);
+        log.info("[mybatis-plus多租户测试]updateAcount,result={}", iAcountDaoManager.updateAcount(account));
+
+        //查询
+        UAccount uAccount = iAcountDaoManager.getAcount(account.getName());
+        log.info("[mybatis-plus多租户测试]getAcount,uAccount={}", uAccount);
+
+        //级联查询
+        List<UAccount> accounts = iAcountDaoManager.getCascadeAccountList();
+        log.info("[mybatis-plus多租户测试]getCascadeAccountList,accounts={}", accounts);
+
+        //删除
+        log.info("[mybatis-plus多租户测试]delAcount,result={}", iAcountDaoManager.delAcount(account.getId()));
     }
 }

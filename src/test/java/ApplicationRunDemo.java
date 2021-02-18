@@ -2,6 +2,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -31,8 +32,9 @@ public class ApplicationRunDemo {
 //        List<Integer> messages = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 //        batchSendMessage(messages);
 
-//        log.info(convertStr(null));
-//        log.info(convertStr(BigDecimal.valueOf(1470.82)));
+        log.info(convertStr(null));
+        log.info(convertStr(BigDecimal.valueOf(1470.82)));
+        log.info(convertStr(new User("1", "gaoweijian")));
 
 //        SalesVolumeMessageData data = new SalesVolumeMessageData();
 //        data.setMonthAmount(new BigDecimal(1457.25));
@@ -93,11 +95,11 @@ public class ApplicationRunDemo {
 //        log.info("user={},user2={}", user, user2);
 
 
-        log.info("{}", convertDouble(null));
-
-        log.info("{}", convertDouble(0.23258754));
-
-        log.info("{}", convertDouble(1.568654545441231));
+//        log.info("{}", convertDouble(null));
+//
+//        log.info("{}", convertDouble(0.23258754));
+//
+//        log.info("{}", convertDouble(1.568654545441231));
 
 
     }
@@ -146,7 +148,7 @@ public class ApplicationRunDemo {
 
     private static <T> String convertStr(T t) {
         if (t != null) {
-            return t.toString();
+            return String.valueOf(t);
         }
         return "--";
     }
