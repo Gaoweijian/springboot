@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.List;
  * @Version: 1.0
  * @Description:
  */
-@EnableTransactionManagement
 @Configuration
 public class MyBatisPlusConfig {
 

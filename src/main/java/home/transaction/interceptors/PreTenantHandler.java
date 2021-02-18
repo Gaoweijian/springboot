@@ -17,10 +17,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class PreTenantHandler implements TenantHandler {
 
-//    @Autowired
-//    private PreTenantConfigProperties configProperties;
-
-
     /**
      * @描述 获取当前租户 id
      * @参数 []
