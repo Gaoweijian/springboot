@@ -1,6 +1,7 @@
 package home.transaction.controller;
 
 import home.transaction.dao.client.IAcountDaoManager;
+import home.transaction.dao.client.IAcountMapper;
 import home.transaction.dto.UAccount;
 import home.transaction.service.CommonVariable;
 import home.transaction.service.client.IAcountService;
@@ -34,6 +35,9 @@ public class RequestController {
 
     @Autowired
     IAcountDaoManager iAcountDaoManager;
+
+    @Autowired
+    private IAcountMapper iAcountMapper;
 
     /**
      * @描述
@@ -132,6 +136,10 @@ public class RequestController {
         //级联查询
         List<UAccount> accounts = iAcountDaoManager.getCascadeAccountList();
         log.info("[mybatis-plus多租户测试]getCascadeAccountList,accounts={}", accounts);
+
+        //查询测试
+        List<UAccount> accountList = iAcountMapper.findAcountList();
+        log.info("[mybatis-plus多租户测试]findAcountList,accountList={}", accountList);
 
         //删除
         log.info("[mybatis-plus多租户测试]delAcount,result={}", iAcountDaoManager.delAcount(account.getId()));

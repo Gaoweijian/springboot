@@ -1,5 +1,6 @@
 package home.transaction.dao.client;
 
+import com.baomidou.mybatisplus.annotation.SqlParser;
 import home.transaction.dto.UAccount;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ public interface IAcountMapper {
 
     public UAccount getAcountByNameAndId(int id, String name);
 
+    @SqlParser(filter = true)
     public List<UAccount> findAcountList();
 
 }
