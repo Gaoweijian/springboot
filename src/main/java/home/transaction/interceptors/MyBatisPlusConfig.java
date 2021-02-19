@@ -1,6 +1,5 @@
 package home.transaction.interceptors;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
@@ -34,7 +33,6 @@ public class MyBatisPlusConfig {
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-
         List<ISqlParser> sqlParserList = new ArrayList<>();
         // 攻击 SQL 阻断解析器、加入解析链
         sqlParserList.add(new BlockAttackSqlParser());
@@ -43,10 +41,6 @@ public class MyBatisPlusConfig {
         tenantSqlParser.setTenantHandler(preTenantHandler);
         sqlParserList.add(tenantSqlParser);
         paginationInterceptor.setSqlParserList(sqlParserList);
-        paginationInterceptor.setSqlParserFilter((method) -> {
-            log.info("[mybatis-拦截sql测试]method={}", JSON.toJSONString(method));
-            return false;
-        });
         return paginationInterceptor;
     }
 }

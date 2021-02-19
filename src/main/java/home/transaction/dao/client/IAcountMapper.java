@@ -18,15 +18,54 @@ import java.util.List;
 @Component
 public interface IAcountMapper {
 
+    /**
+     * @描述
+     * @参数 [name]
+     * @返回值 home.transaction.dto.UAccount
+     * @创建人 gao侧耳倾听
+     * @创建时间 2021/2/19
+     * @修改人
+     */
     public UAccount getAcount(String name);
 
+    /**
+     * @描述
+     * @参数 [account]
+     * @返回值 boolean
+     * @创建人 gao侧耳倾听
+     * @创建时间 2021/2/19
+     * @修改人
+     */
     public boolean updateAcount(UAccount account);
 
+    /**
+     * @描述
+     * @参数 [id]
+     * @返回值 boolean
+     * @创建人 gao侧耳倾听
+     * @创建时间 2021/2/19
+     * @修改人
+     */
     public boolean delAcount(int id);
 
+    /**
+     * @描述
+     * @参数 [id, name]
+     * @返回值 home.transaction.dto.UAccount
+     * @创建人 gao侧耳倾听
+     * @创建时间 2021/2/19
+     * @修改人
+     */
     public UAccount getAcountByNameAndId(int id, String name);
 
+    /**
+     * @描述
+     * @参数 []
+     * @返回值 java.util.List<home.transaction.dto.UAccount>
+     * @创建人 gao侧耳倾听
+     * @创建时间 2021/2/19
+     * @修改人
+     */
     @SqlParser(filter = true)
     public List<UAccount> findAcountList();
-
 }
