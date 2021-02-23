@@ -2,9 +2,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -32,9 +37,9 @@ public class ApplicationRunDemo {
 //        List<Integer> messages = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 //        batchSendMessage(messages);
 
-        log.info(convertStr(null));
-        log.info(convertStr(BigDecimal.valueOf(1470.82)));
-        log.info(convertStr(new User("1", "gaoweijian")));
+//        log.info(convertStr(null));
+//        log.info(convertStr(BigDecimal.valueOf(1470.82)));
+//        log.info(convertStr(new User("1", "gaoweijian")));
 
 //        SalesVolumeMessageData data = new SalesVolumeMessageData();
 //        data.setMonthAmount(new BigDecimal(1457.25));
@@ -101,7 +106,40 @@ public class ApplicationRunDemo {
 //
 //        log.info("{}", convertDouble(1.568654545441231));
 
+        java8Date();
 
+        log.info("{}", getTomorrow());
+    }
+
+    /**
+     * 获取明天
+     *
+     * @return
+     */
+    public static String getTomorrow() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar claendar = Calendar.getInstance();
+//        claendar.add(Calendar.DATE, 1);
+        return sdf.format(claendar.getTime());
+    }
+
+    private static void java8Date() {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String currentDate = LocalDateTime.now().format(formatter);
+        log.info("[java8时间测试]currentDate={}", currentDate);
+
+        log.info("[获取当前日期]currentDate={}", formatDate(new Date(), "yyyy-MM-dd").toString());
+    }
+
+
+    //日期格式转换，返回日期类型
+    public static Date formatDate(Date date, String format) {
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        String dateString = formatter.format(date);
+        ParsePosition pos = new ParsePosition(0);
+        Date newDate = formatter.parse(dateString, pos);
+        return newDate;
     }
 
 

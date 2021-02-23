@@ -1,7 +1,6 @@
 package home.transaction.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,17 +15,18 @@ import java.util.Map;
  * @Version: 1.0
  * @Description:
  */
+@Slf4j
 @Controller
-@RequestMapping("/web")
+@RequestMapping("web")
 public class WebController {
 
-    private final Logger logger = LoggerFactory.getLogger(WebController.class);
-
-    @RequestMapping(value = "/home")
+    @RequestMapping(value = "home")
     public String showPage(Map<String, Object> map) {
-        logger.info("web客户端连接成功...");
+        log.info("web客户端连接成功...");
         map.put("version", "1.0.0");
         map.put("users", Arrays.asList("张三", "李四", "王五"));
         return "home";
     }
+
+
 }

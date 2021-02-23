@@ -39,6 +39,18 @@ public class RequestController {
     @Autowired
     private IAcountMapper iAcountMapper;
 
+    @Autowired
+    private CommonVariable commonVariable;
+
+    @RequestMapping(value = "async")
+    public void tryAsync() {
+        log.info("springboot异步方法测试,START");
+        log.info("[commonVariable]A,result={}", commonVariable.tryAsyncA());
+        log.info("[commonVariable]B,result={}", commonVariable.tryAsyncB());
+        log.info("[commonVariable]C,result={}", commonVariable.tryAsyncC());
+        log.info("springboot异步方法测试,END");
+    }
+
     /**
      * @描述
      * @参数 []
