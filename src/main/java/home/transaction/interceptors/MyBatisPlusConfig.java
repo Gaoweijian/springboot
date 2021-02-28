@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.List;
  * mybatis-plus入门：https://baomidou.com/guide/annotation.html#tablename
  */
 @Slf4j
-@Configuration
+//@Configuration
 public class MyBatisPlusConfig {
 
     @Autowired
