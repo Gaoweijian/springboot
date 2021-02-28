@@ -3,6 +3,7 @@ package home.transaction.controller;
 import home.transaction.dao.client.IAcountDaoManager;
 import home.transaction.dao.client.IAcountMapper;
 import home.transaction.dto.UAccount;
+import home.transaction.service.CallableService;
 import home.transaction.service.CommonVariable;
 import home.transaction.service.client.IAcountService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: gao侧耳倾听
@@ -133,6 +139,8 @@ public class RequestController {
      */
     @PostMapping(value = "tenant")
     public void mybatisTenantTest(@RequestBody UAccount account) {
+
+
         //新增
         log.info("[mybatis-plus多租户测试]saveAccount,result={}", iAcountDaoManager.saveAccount(account));
 
@@ -154,5 +162,46 @@ public class RequestController {
 //        过滤sql测试
         List<UAccount> accountList = iAcountMapper.findAcountList();
         log.info("[mybatis-plus多租户测试]findAcountList,accountList={}", accountList);
+    }
+
+    @GetMapping(value = "countdownlatch")
+    public Map countDownLatchTest() throws Exception {
+        Map map = new HashMap();
+        Long startTime = System.currentTimeMillis();
+        CountDownLatch countDownLatch = new CountDownLatch(3);
+
+        FutureTask task = new FutureTask(new CallableService(countDownLatch, () -> iAcountDaoManager
+                .getAcount("张三"), map));
+        new Thread(task).start();
+        log.info("[逻辑1]耗时={} ms", System.currentTimeMillis() - startTime);
+
+        FutureTask task2 = new FutureTask(new CallableService(countDownLatch, () -> iAcountDaoManager
+                .getCascadeAccountList(), map));
+        new Thread(task2).start();
+        log.info("[逻辑2]耗时={} ms", System.currentTimeMillis() - startTime);
+
+        FutureTask task3 = new FutureTask(new CallableService(countDownLatch, () -> iAcountMapper.findAcountList(), map));
+        new Thread(task3).start();
+        log.info("[逻辑3]耗时={} ms", System.currentTimeMillis() - startTime);
+
+        countDownLatch.await();
+        Long endTime = System.currentTimeMillis();
+        map.put("耗时", (endTime - startTime) + " ms");
+        return map;
+    }
+
+    @GetMapping(value = "no/countdownlatch")
+    public Map noCountDownLatchTest() throws InterruptedException {
+        Map map = new HashMap();
+        Long startTime = System.currentTimeMillis();
+        TimeUnit.SECONDS.sleep(2);
+        map.put("acount", iAcountDaoManager.getAcount("张三"));
+        TimeUnit.SECONDS.sleep(2);
+        map.put("accounts", iAcountDaoManager.getCascadeAccountList());
+        TimeUnit.SECONDS.sleep(2);
+        map.put("accountList", iAcountMapper.findAcountList());
+        Long endTime = System.currentTimeMillis();
+        map.put("耗时", (endTime - startTime) + " ms");
+        return map;
     }
 }

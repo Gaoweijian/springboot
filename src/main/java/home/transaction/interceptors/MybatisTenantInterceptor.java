@@ -5,15 +5,9 @@ import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.executor.statement.StatementHandler;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Signature;
-import org.apache.ibatis.session.ResultHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +19,8 @@ import java.util.List;
  * @Description: prepare/query
  */
 @Slf4j
-@Component
-@Intercepts(@Signature(type = StatementHandler.class, method = "query", args = {Statement.class, ResultHandler.class}))
+//@Component
+//@Intercepts(@Signature(type = StatementHandler.class, method = "query", args = {Statement.class, ResultHandler.class}))
 //@Intercepts({@Signature(
 //        type = StatementHandler.class,
 //        method = "prepare",
