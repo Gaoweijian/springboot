@@ -13,10 +13,14 @@
 //        out.close();
 
 
-
 http://api.map.baidu.com/geocoding/v3/?address=北京市海淀区上地十街10号&output=json&ak=您的ak&callback=showLocation
 
+http://api.map.baidu.com/geocoding/v3/?address=陕西省/西安市/雁塔区/华泰金贸国际6号楼&output=json&ak=2Y8EGiaWTffCsQyzt7Vmg0eNOC6lbsMZ
 
 http://api.map.baidu.com/geocoding/v3/?address=陕西省西安市雁塔区华泰金贸国际6号楼&output=json&ak=2Y8EGiaWTffCsQyzt7Vmg0eNOC6lbsMZ
 
+Request Method: POST
 
+Request Method: GET
+
+alter table t_store_info modify column running_mode varchar(50) comment '经营模式';

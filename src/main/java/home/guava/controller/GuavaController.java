@@ -159,8 +159,6 @@ public class GuavaController {
             return o1 + o2;
         });
         logger.info("[stream操作演习]reduces={}", reduces.get());
-
-
     }
 
     /**

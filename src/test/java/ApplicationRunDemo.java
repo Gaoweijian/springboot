@@ -1,4 +1,6 @@
+import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,10 +9,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -106,9 +105,9 @@ public class ApplicationRunDemo {
 //
 //        log.info("{}", convertDouble(1.568654545441231));
 
-        java8Date();
-
-        log.info("{}", getTomorrow());
+//        java8Date();
+//
+//        log.info("{}", getTomorrow());
     }
 
     /**
@@ -250,5 +249,31 @@ public class ApplicationRunDemo {
 
         //使用主线程
         return visibleNum;
+    }
+
+    /**
+     * @描述 map-reduce测试
+     * @参数 []
+     * @返回值 void
+     * @创建人 gao侧耳倾听
+     * @创建时间 2021/3/8
+     * @修改人
+     */
+    @Test
+    public void reduceRun() {
+        List<Map> mapList = new ArrayList<>();
+        mapList.add(ImmutableMap.of("name", "gao", "age", "18"));
+        mapList.add(ImmutableMap.of("name", "wang", "age", "17"));
+        mapList.add(ImmutableMap.of("name", "zhang", "age", "16"));
+        mapList.add(ImmutableMap.of("name", "li", "age", "15"));
+
+        Optional<String> result = mapList.stream().map(v -> {
+            log.info("[map-reduce测试 java8]v={}", v);
+            return v.get("name") + "/" + v.get("age");
+        }).reduce((v1, v2) -> {
+            log.info("[map-reduce测试 java8]v1={},v2={}", v1, v2);
+            return v1 + "\n" + v2;
+        });
+        log.info("[map-reduce测试 java8]result={}", result);
     }
 }
