@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @ComponentScan(value = "home")
-@MapperScan(value = "home.transaction.dao.client")
+@MapperScan(value = {"home.transaction.dao.client", "home.mybatis.dao"})
 @Import(ConfigRuation.class)
 @EnableScheduling
 @EnableTransactionManagement

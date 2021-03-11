@@ -1,4 +1,4 @@
-package home.mybatis.service;
+package home.mybatis.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import org.springframework.context.annotation.Bean;

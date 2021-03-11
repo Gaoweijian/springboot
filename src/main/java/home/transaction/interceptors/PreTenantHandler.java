@@ -26,7 +26,7 @@ public class PreTenantHandler implements TenantHandler {
      * @修改人
      */
     @Override
-    public Expression getTenantId() {
+    public Expression getTenantId(boolean select) {
         log.info("[PreTenantHandler]getTenantId={}", "202000001");
         return new LongValue(202000001);
     }

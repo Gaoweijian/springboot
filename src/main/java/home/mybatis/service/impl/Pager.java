@@ -1,4 +1,4 @@
-package home.mybatis.service;
+package home.mybatis.service.impl;
 
 import java.util.List;
 

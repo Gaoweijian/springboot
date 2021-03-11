@@ -1,4 +1,4 @@
-package home.mybatis.service;
+package home.mybatis.service.impl;
 
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
