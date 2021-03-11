@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @License: (C) Copyright 2005-2021, xxx Corporation Limited.
  * @Date: 2021/1/12 下午 08:23
  * @Version: 1.0
- * @Description:
+ * @Description: mybatis-plus FieldStrategy 有三种策略：
+ * IGNORED：0 忽略
+ * NOT_NULL：1 非 NULL，默认策略
+ * NOT_EMPTY：2 非空
  */
 @RestController
 @RequestMapping(value = "/mybatis/controller")

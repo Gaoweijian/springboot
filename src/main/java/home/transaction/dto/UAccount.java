@@ -1,8 +1,11 @@
 package home.transaction.dto;
 
 public class UAccount {
+
     private int id;
+
     private String name;
+
     private int money;
 
     /**

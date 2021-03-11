@@ -1,6 +1,7 @@
 package home.transaction.dao.client;
 
 import com.baomidou.mybatisplus.annotation.SqlParser;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import home.transaction.dto.UAccount;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @Mapper
 @Component
-public interface IAcountMapper {
+public interface IAcountMapper extends BaseMapper {
 
     /**
      * @描述
