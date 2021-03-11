@@ -1,4 +1,5 @@
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -67,12 +68,13 @@ public class ThreadLocalRunDemo {
     /**
      * 创建三个线程，每个线程都会对ThreadLocal对象进行操作
      */
-    public static void main(String[] args) {
+    @Test
+    public void runDemo() {
         ExecutorService es = Executors.newFixedThreadPool(3);
-//        ThreadLocalDemo threadLocalDemo = new ThreadLocalDemo();
-//        es.execute(threadLocalDemo.new Worker());
-//        es.execute(threadLocalDemo.new Worker());
-//        es.execute(threadLocalDemo.new Worker());
+        ThreadLocalRunDemo threadLocalDemo = new ThreadLocalRunDemo();
+        es.execute(threadLocalDemo.new Worker());
+        es.execute(threadLocalDemo.new Worker());
+        es.execute(threadLocalDemo.new Worker());
         es.shutdown();
     }
 
