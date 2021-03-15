@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.4.0</version>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <!--springboot-web 页面所需依赖-->

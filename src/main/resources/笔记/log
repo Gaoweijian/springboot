@@ -1,0 +1,1 @@
+jdbc:mysql://172.22.198.53:33306/crm-customer?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
